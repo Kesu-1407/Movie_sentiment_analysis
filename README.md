@@ -58,4 +58,5 @@ streamlit run app.py
 
 - [@Kesu-1407](https://www.github.com/Kesu-1407)
 - [Sejal Kaur Virdi](https://www.linkedin.com/in/sejal-kaur-virdi)
-
+- [@harshit-wadhwani](https://github.com/harshit-wadhwani)
+- [Harshit Wadhwani](https://www.linkedin.com/in/harshitwadhwani/)
