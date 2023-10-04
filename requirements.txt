@@ -8,3 +8,4 @@ IMDbPY
 matplotlib==3.4.3
 streamlit==0.88.0
 wordcloud==1.8.1
+pillow==8.2.0
