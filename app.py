@@ -76,7 +76,9 @@ def main():
         status_text.text("Scraping comments...")
 
         imdb_id = get_imdb_id(movie_name)
-        if imdb_id:
+        if imdb_id is None:
+            st.write(" :red[sorry results not found..... check spelling and try again] ")
+        else:
 
             progress_bar.progress(30)
             status_text.text("Analyzing comments...")
@@ -122,8 +124,7 @@ def main():
 
             progress_bar.progress(100)
             status_text.text("Analysis complete!")
-        else:
-            st.write("Movie not found.")  
+        
 
 if __name__ == '__main__':
     main()
