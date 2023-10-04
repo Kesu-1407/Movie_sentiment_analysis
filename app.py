@@ -104,7 +104,7 @@ def main():
             ax.set_title('Sentiment Analysis')
 
             comments = ' '.join([res.text for res in result])
-            wordcloud = WordCloud(background_color='black').generate(comments)
+            wordcloud = WordCloud(font_path='Mefikademo-owEAq.ttf',background_color='black').generate(comments)
             ax2.imshow(wordcloud, interpolation='bilinear')
             ax2.set_title('Comments Word Cloud')
             ax2.axis('off')
