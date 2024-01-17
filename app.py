@@ -72,13 +72,14 @@ def main():
         progress_bar = st.progress(0)  # Create a progress bar
         status_text = st.empty()  # Create an empty placeholder for status text
         # Update progress bar and status text
-        progress_bar.progress(10)
-        status_text.text("Scraping comments...")
+        
 
         imdb_id = get_imdb_id(movie_name)
         if imdb_id is None:
             st.write(" :red[sorry results not found..... check spelling and try again] ")
         else:
+            progress_bar.progress(10)
+            status_text.text("Scraping comments...")
 
             progress_bar.progress(30)
             status_text.text("Analyzing comments...")
