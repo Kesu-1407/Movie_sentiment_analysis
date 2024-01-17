@@ -75,56 +75,60 @@ def main():
         
 
         imdb_id = get_imdb_id(movie_name)
-        if imdb_id is None:
-            st.write(" :red[sorry results not found..... check spelling and try again] ")
-        else:
-            progress_bar.progress(10)
-            status_text.text("Scraping comments...")
-
-            progress_bar.progress(30)
-            status_text.text("Analyzing comments...")
-
-            ans,result,df = analyze_movie_sentiment(imdb_id, cv, lr)
-
-            progress_bar.progress(70)
-            status_text.text("Generating visualizations...")
-            time.sleep(1.5)
-
-            if (ans>50):
-                st.subheader(f"The percentage of positive reviews for {movie_name} is: :green[{ans}%]  :smile:") 
-            elif (ans<50):
-                st.subheader(f"The percentage of positive reviews for {movie_name} is: :red[{ans}%]  :disappointed:")
+        try:
+            if imdb_id is None:
+                st.write("sorry results not found..... check spelling and try again ")
             else:
-                st.subheader(f"The percentage of positive reviews for {movie_name} is: :blue[{ans}%]") 
+                progress_bar.progress(10)
+                status_text.text("Scraping comments...")
 
-            labels = ['Positive', 'Negative']
-            sizes = [ans, 100 - ans]
-            colors = ['green', 'red']
-            fig, (ax,ax2) = plt.subplots(1, 2, figsize=(20,15), facecolor='black' ,gridspec_kw={'hspace': 0.1})
+                progress_bar.progress(30)
+                status_text.text("Analyzing comments...")
 
-            ax.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90, textprops={'fontsize': 30})
-            ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
-            ax.set_title('Sentiment Analysis')
+                ans,result,df = analyze_movie_sentiment(imdb_id, cv, lr)
 
-            comments = ' '.join([res.text for res in result])
-            wordcloud = WordCloud(font_path='Mefikademo-owEAq.ttf',background_color='black').generate(comments)
-            ax2.imshow(wordcloud, interpolation='bilinear')
-            ax2.set_title('Comments Word Cloud')
-            ax2.axis('off')
+                progress_bar.progress(70)
+                status_text.text("Generating visualizations...")
+                time.sleep(1.5)
 
-            # progress_bar.progress(100)
-            # status_text.text("Analysis complete!")
-            # Display the chart and word cloud in Streamlit
-            warnings.filterwarnings("ignore", category=UserWarning)
-            st.pyplot(fig)
+                if (ans>50):
+                    st.subheader(f"The percentage of positive reviews for {movie_name} is: :green[{ans}%]  :smile:") 
+                elif (ans<50):
+                    st.subheader(f"The percentage of positive reviews for {movie_name} is: :red[{ans}%]  :disappointed:")
+                else:
+                    st.subheader(f"The percentage of positive reviews for {movie_name} is: :blue[{ans}%]") 
 
-            st.subheader("Top 10 Comments and Sentiments:")
-            for i, row in df[['review', 'sentiment']].head(10).iterrows():
-                with st.expander(f"Comment {i + 1} - Sentiment: {row['sentiment']}"):
-                    st.write(row['review'])
+                labels = ['Positive', 'Negative']
+                sizes = [ans, 100 - ans]
+                colors = ['green', 'red']
+                fig, (ax,ax2) = plt.subplots(1, 2, figsize=(20,15), facecolor='black' ,gridspec_kw={'hspace': 0.1})
 
-            progress_bar.progress(100)
-            status_text.text("Analysis complete!")
+                ax.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90, textprops={'fontsize': 30})
+                ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
+                ax.set_title('Sentiment Analysis')
+
+                comments = ' '.join([res.text for res in result])
+                wordcloud = WordCloud(font_path='Mefikademo-owEAq.ttf',background_color='black').generate(comments)
+                ax2.imshow(wordcloud, interpolation='bilinear')
+                ax2.set_title('Comments Word Cloud')
+                ax2.axis('off')
+
+                # progress_bar.progress(100)
+                # status_text.text("Analysis complete!")
+                # Display the chart and word cloud in Streamlit
+                warnings.filterwarnings("ignore", category=UserWarning)
+                st.pyplot(fig)
+
+                st.subheader("Top 10 Comments and Sentiments:")
+                for i, row in df[['review', 'sentiment']].head(10).iterrows():
+                    with st.expander(f"Comment {i + 1} - Sentiment: {row['sentiment']}"):
+                        st.write(row['review'])
+
+                progress_bar.progress(100)
+                status_text.text("Analysis complete!")
+        except Exception as e :
+            progress_bar.progress(0)
+            status_text.text("Analysis complete!, No results found. Please try again!")
         
 
 if __name__ == '__main__':
